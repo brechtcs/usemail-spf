@@ -1,0 +1,38 @@
+{
+  "name": "usemail-spf",
+  "version": "0.1.0",
+  "description": "SPF checking middleware for Usemail",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test.js && standard"
+  },
+  "dependencies": {
+    "custom-error-class": "^1.0.0",
+    "spf-check": "^0.4.3",
+    "stdopt": "^11.0.0"
+  },
+  "devDependencies": {
+    "nodemailer": "^6.4.6",
+    "standard": "^14.3.3",
+    "tape": "^5.0.0",
+    "usemail": "^0.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brechtcs/usemail-spf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brechtcs/usemail-spf/issues"
+  },
+  "homepage": "https://github.com/brechtcs/usemail-spf#readme",
+  "keywords": [
+    "spf",
+    "check",
+    "mail",
+    "server",
+    "usemail",
+    "middleware"
+  ],
+  "author": "Brecht Savelkoul <brecht.savelkoul@alumni.lse.ac.uk>",
+  "license": "Apache-2.0"
+}
