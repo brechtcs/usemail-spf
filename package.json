@@ -12,10 +12,10 @@
     "stdopt": "^11.0.0"
   },
   "devDependencies": {
-    "nodemailer": "^6.4.6",
     "standard": "^14.3.3",
     "tape": "^5.0.0",
-    "usemail": "^0.3.0"
+    "usemail": "^0.3.0",
+    "usemail-test-utils": "^1.0.1"
   },
   "repository": {
     "type": "git",
