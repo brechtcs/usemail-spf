@@ -15,7 +15,7 @@
     "standard": "^14.3.3",
     "tape": "^5.0.0",
     "usemail": "^0.3.0",
-    "usemail-test-utils": "^1.0.1"
+    "usemail-test-utils": "^1.1.0"
   },
   "repository": {
     "type": "git",
