@@ -1,6 +1,6 @@
 {
   "name": "usemail-spf",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "SPF checking middleware for Usemail",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   "devDependencies": {
     "standard": "^14.3.3",
     "tape": "^5.0.0",
-    "usemail": "^0.3.0",
+    "usemail": "^0.4.0",
     "usemail-test-utils": "^1.1.0"
   },
   "repository": {

@@ -5,11 +5,13 @@ var Reject = require('./lib/reject')
 module.exports = function (opts = {}) {
   var reject = Reject(opts.reject).value()
 
-  return async function spf (session, ctx) {
+  return async function spf (sender, session, ctx) {
+    if (!ctx || ctx.phase !== 'from') {
+      throw new Error('SPF should be run in `from` phase')
+    }
     var ip = session.remoteAddress
     var domain = session.hostNameAppearsAs
-    var sender = session.envelope.mailFrom.address
-    var validator = new SPF(domain, sender)
+    var validator = new SPF(domain, sender.address)
 
     ctx.spf = await validator.check(ip)
 
