@@ -1,9 +1,12 @@
+var { Opt, hash } = require('stdopt')
 var { SPF } = require('spf-check')
 var CustomError = require('custom-error-class')
 var Reject = require('./lib/reject')
 
+var OPTS_ERR = 'Invalid option for `usemail-spf`'
+
 module.exports = function (opts = {}) {
-  var reject = Reject(opts.reject).value()
+  var { reject } = new Config(opts).catch(OPTS_ERR).value()
 
   return async function spf (sender, session, ctx) {
     if (!ctx || ctx.phase !== 'from') {
@@ -22,3 +25,13 @@ module.exports = function (opts = {}) {
 }
 
 class SPFError extends CustomError {}
+
+class Config extends Opt {
+  static parse (config) {
+    return hash(config, this.struct)
+  }
+
+  static get struct () {
+    return { reject: Reject }
+  }
+}
