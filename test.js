@@ -9,11 +9,11 @@ test('default settings', async function (t) {
   server.from(spf())
   server.use(verify)
 
-  function verify ({ envelope }, ctx) {
-    t.equal(envelope.mailFrom.address, 'me@localhost')
-    t.notEqual(envelope.mailFrom.address, 'some@example.com')
-    t.ok(ctx.spf)
-    t.ok(ctx.spf.result)
+  function verify (session) {
+    t.equal(session.from, 'me@localhost')
+    t.notEqual(session.from, 'some@example.com')
+    t.ok(session.get('spf'))
+    t.ok(session.get('spf').result)
   }
 
   await server.listen()
@@ -30,11 +30,12 @@ test('reject more', async function (t) {
     server.from(spf({ reject }))
     server.use(() => t.fail())
 
-    server.on('bye', function (session, ctx) {
-      t.ok(ctx.internalError)
-      t.ok(ctx.internalError.message)
-      t.equal(ctx.internalError.name, 'SPFError')
-      t.equal(ctx.spf.result, 'None')
+    server.on('bye', function (session) {
+      t.ok(session.serverError)
+      t.ok(session.serverError.message)
+      t.equal(session.serverError.message, session.clientError.message)
+      t.equal(session.serverError.name, 'SPFError')
+      t.equal(session.get('spf').result, 'None')
       resolve()
     })
 
@@ -52,14 +53,14 @@ test('reject less', async function (t) {
   server.from(spf({ reject: false }))
   server.use(verify)
 
-  function verify (session, ctx) {
-    t.ok(ctx.spf)
-    t.ok(ctx.spf.message)
-    t.equal(ctx.spf.result, 'Fail')
+  function verify (session) {
+    t.ok(session.get('spf'))
+    t.ok(session.get('spf').message)
+    t.equal(session.get('spf').result, 'Fail')
   }
 
-  server.on('bye', function (session, ctx) {
-    t.equal(ctx.internalError, null)
+  server.on('bye', function (session) {
+    t.equal(session.serverError, null)
   })
 
   await server.listen()
@@ -72,9 +73,9 @@ test('assert phase', async function (t) {
   var server = usemail({ authOptional: true })
   server.use(spf({ reject: false }))
 
-  server.on('bye', function (session, ctx) {
-    t.ok(ctx.internalError)
-    t.equal(ctx.internalError.message, 'SPF should be run in `from` phase')
+  server.on('bye', function (session) {
+    t.ok(session.serverError)
+    t.equal(session.serverError.message, 'SPF plugin should run in `from` phase')
   })
 
   await server.listen()
