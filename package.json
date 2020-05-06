@@ -4,6 +4,7 @@
   "description": "SPF checking middleware for Usemail",
   "main": "index.js",
   "scripts": {
+    "prepack": "npm test",
     "test": "tape test.js && standard"
   },
   "dependencies": {
